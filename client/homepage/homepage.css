@@ -1,0 +1,36 @@
+/* NAVBAR */
+.navbar {
+  height: 120px;
+}
+
+/* Remove the padding added by the container-fluid */
+.navbar .container-fluid {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+/* Center the navbar items */
+.navbar-nav {
+  margin-left: auto;
+}
+
+/* fix logo size */
+.navbar-brand img {
+  height: 100px;
+  margin: 5px;
+}
+
+.container.my-5 {
+  text-align: center;
+}
+
+.container.my-5 h1 {
+  font-size: 3rem;
+  font-weight: bold;
+  color: #333;
+}
+
+.container.my-5 p {
+  font-size: 1.5rem;
+  color: #666;
+}
