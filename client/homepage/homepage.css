@@ -1,6 +1,6 @@
-/* NAVBAR */
-.navbar {
-  height: 120px;
+/* ----------------- NAVBAR ----------------- */
+.container-fluid, .navbar, li.nav-item {
+  height: 100px;
 }
 
 /* Remove the padding added by the container-fluid */
@@ -9,16 +9,79 @@
   padding-right: 0;
 }
 
-/* Center the navbar items */
-.navbar-nav {
-  margin-left: auto;
+.navbar {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: bold;
 }
 
-/* fix logo size */
+.navbar-nav .nav-item {
+  height: 100px;
+  display: flex;
+  align-items: center;
+}
+
+.navbar-nav .nav-link {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 1rem;
+  height: 100%;
+}
+
+.navbar-nav li:nth-child(-n+3) {
+  margin-right: 3rem;
+}
+
+.navbar-nav {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  height: 100px;
+}
+
+/* Fix logo size */
 .navbar-brand img {
   height: 100px;
   margin: 5px;
 }
+
+.nav-link {
+  display: inline-block;
+  line-height: 100px;
+}
+
+.navbar-nav li:nth-of-type(4) a{
+  line-height: 82px;
+  width: fit-content;
+}
+
+.navbar-nav .nav-item:nth-child(-n+3) .nav-link::after {
+  content: "";
+  display: block;
+  width: 0;
+  height: 1px;
+  background-color: #333;
+  position: absolute;
+  bottom: 20px; /* Adjust the distance from the text */
+  left: 50%;
+  transform: translateX(-50%);
+  transition: width 0.3s;
+}
+
+.navbar-nav .nav-item:nth-child(-n+3) .nav-link:hover::after {
+  width: 50%;
+}
+
+.start-planning {
+  text-align: center;
+  line-height: 1.1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* ----------------- BODY ----------------- */
 
 .container.my-5 {
   text-align: center;
