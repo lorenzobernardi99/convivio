@@ -125,3 +125,41 @@
   align-items: center;
   justify-content: center;
 }
+
+/* ----------------- FOOTER ----------------- */
+footer {
+  font-family: 'Montserrat', sans-serif;
+  font-style: normal;
+}
+
+.footer-logo {
+  height: 100px;
+}
+
+.footer-info-section {
+  text-align: right;
+}
+
+.footer-info-section h3 {
+  font-weight: 600;
+  font-size: 24px;
+  margin-bottom: 0.5rem;
+}
+
+.footer-info-section p {
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.about-us-section h3 {
+  font-weight: 600;
+  font-size: 24px;
+  margin-bottom: 0.5rem;
+}
+
+.about-us-section p {
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.5;
+}
