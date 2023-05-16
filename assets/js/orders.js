@@ -33,3 +33,14 @@ function updateModalContent(itemDetails) {
   document.querySelector(".modal-body div:nth-child(5)").innerHTML = `<strong>Date:</strong> ${itemDetails.date}`;
   document.querySelector(".modal-footer div").innerHTML = `<strong>Total cost:</strong> ${itemDetails.price}`;
 }
+
+// Closes the modal using close-btn
+function setupCloseButton() {
+  const closeButton = document.querySelector('.close-btn');
+  closeButton.addEventListener('click', () => {
+    const modal = document.querySelector('#ordersModal');
+    $(modal).modal('hide');
+  });
+}
+
+setupCloseButton();
