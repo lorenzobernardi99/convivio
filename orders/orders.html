@@ -41,14 +41,14 @@
           <div class="card custom-card border-top border-bottom border-3" style="border-color: #182832!important;">
             <div class="card-body p-0">
               <ul class="list-group list-group-flush">
-                <a href="#" class="custom-link" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                <a href="#" class="custom-link" data-bs-toggle="modal" data-bs-target="#ordersModal">
                   <li class="list-group-item custom-list-item">
                     <div><strong>ID:</strong> 12345</div>
                     <div><strong>Location:</strong> Main St</div>
                     <div><strong>Date:</strong> 16/05/2023</div>
                   </li>
                 </a>
-                <a href="#" class="custom-link" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                <a href="#" class="custom-link" data-bs-toggle="modal" data-bs-target="#ordersModal">
                   <li class="list-group-item custom-list-item">
                     <div><strong>ID:</strong> 67890</div>
                     <div><strong>Location:</strong> High St</div>
@@ -58,6 +58,33 @@
               </ul>
             </div>
           </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="ordersModal" tabindex="-1" aria-labelledby="ordersModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content rounded">
+        <div class="modal-body">
+          <div class="main-content">
+            <button type="button" class="close-btn" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <div class="text-center mb-3">
+              <h5 class="modal-title" style="margin-top: -1rem">Order Details</h5>
+            </div>
+            <div><strong>ID:</strong> 12345</div>
+            <div><strong>Location:</strong> Main St</div>
+            <div><strong>Date:</strong> 16/05/2023</div>
+            <div class="text-center mt-3">
+              <div><strong>Description:</strong></div>
+              <p class="mt-3">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+            </div> 
+          </div>
+        </div>
+        <div class="modal-footer justify-content-center">
+          <div><strong>Total cost:</strong> €10.00</div>
         </div>
       </div>
     </div>
