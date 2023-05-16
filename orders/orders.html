@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <title>Convivio order form</title>
+    <script src="/assets/js/order.js"></script>
+    <link rel="stylesheet" href="/assets/css/orderstyle.css">
+
+</head>
+<body>
+
+
+<section>
+ <div class="container">
+    <form id="regForm" action="/action_page.php">
+            <!-- One "tab" for each step in the form: -->
+            <div class="tab"><h3>Hi User start your order by pressing the "NEXT" button:</h3>
+            </div>
+
+        <div class="tab">1. What type of event are you planning?
+            <p><input type="checkbox" value="Wedding reception" placeholder="Wedding reception" oninput="this.className = ''" name="Wedding reception">Wedding reception</p>
+            <p><input type="checkbox" value="Social" placeholder="Social" oninput="this.className = ''" name="Social">Social (Birthday, Anniversary, etc.)</p>
+
+        </div>
+
+        <div class="tab">2. When is your event?
+            <p><input type="time" value="time" placeholder="time" oninput="this.className = ''" name="time"></p>
+        </div>
+
+        <div class="tab">3. Where is your event?
+            <p><input type="text" value="place" placeholder="place" oninput="this.className = ''" name="place"></p>
+        </div>
+
+        <div class="tab">4. How many guests do you expect?
+            <p><input type="text" value="guest" placeholder="guest" oninput="this.className = ''" name="guest"></p>
+        </div>
+
+        <div class="tab">5. What format are you envisioning?
+            <p><input type="checkbox" value="Buffet" placeholder="Buffet" oninput="this.className = ''" name="Buffet">Buffet</p>
+            <p><input type="checkbox" value="AlaCarte" placeholder="AlaCarte" oninput="this.className = ''" name="AlaCarte">A la carte</p>
+        </div>
+
+
+
+
+
+        <div style="overflow:auto;">
+            <div style="float:right;">
+                <button type="button" class="button" id="prevBtn" onclick="nextPrev(-1)">Previous</button>
+                <button type="button" class="button" id="nextBtn" onclick="nextPrev(1)">Next</button>
+            </div>
+        </div>
+
+        <!-- Circles which indicates the steps of the form: -->
+
+        <div style="text-align:center;margin-top:40px;">
+            <span class="step"></span>
+            <span class="step"></span>
+            <span class="step"></span>
+            <span class="step"></span>
+            <span class="step"></span>
+            <span class="step"></span>
+            <span class="step"></span>
+        </div>
+     </form>
+   </div>
+</section>
+</body>
+
+</html>
