@@ -1,4 +1,4 @@
-/* ----------------- NAVBAR ----------------- */
+/* ---------------------------------- HOMEPAGE ---------------------------------- */
 .container-fluid, .navbar, li.nav-item {
   height: 100px;
 }
@@ -12,7 +12,9 @@
 .navbar {
   font-family: 'Montserrat', sans-serif;
   font-weight: 500;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
   margin-bottom: -48px; /* To remove a weird white band caused by bootstrap's navbar */
+  z-index: 1;
 }
 
 .navbar-nav .nav-item {
@@ -50,16 +52,6 @@
   display: inline-block;
   line-height: 100px;
 }
-/*
-.navbar-nav li:nth-of-type(4) a {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-}
-
-.navbar-nav li:nth-of-type(4) a:hover .start-planning {
-  transform: scale(1.1);
-}*/
 
 .navbar-nav .nav-item:nth-child(-n+3) .nav-link::after {
   content: "";
@@ -91,9 +83,9 @@
   transition: transform 0.3s;
 }
 
-/* ----------------- BODY ----------------- */
+/* BODY */
 .background-section {
-  background-image: url('/public/images/background.jpg');
+  background-image: url("/assets/img/background.jpg");
   background-size: cover;
   background-position: center;
   min-height: 95vh; /* Set the height to cover the entire viewport height */
@@ -158,10 +150,15 @@
   background-color: #3a4a52;
 }
 
-/* ----------------- FOOTER ----------------- */
+/* FOOTER */
 footer {
   font-family: 'Montserrat', sans-serif;
   font-style: normal;
+}
+
+.footer-container {
+  overflow: hidden;
+  box-shadow: 0 -2px 4px 0 rgba(0, 0, 0, 0.15);
 }
 
 .footer-logo {
@@ -194,4 +191,59 @@ footer {
   font-weight: 400;
   font-size: 16px;
   line-height: 1.5;
+}
+
+/* ---------------------------------- ORDERS ---------------------------------- */
+.orders-section {
+  background-size: cover;
+  background-position: center;
+  min-height: 95vh; /* Set the height to cover the entire viewport height */
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  position: relative;
+  z-index: 0;
+  padding-top: 200px;
+}
+
+.orders-section h2 {
+  position: absolute;
+  top: 150px;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-bottom: 30px;
+}
+
+.custom-card {
+  height: 500px;
+  display: flex;
+  flex-direction: column;
+}
+
+.custom-card .card-body {
+  height: 100%;
+  overflow-y: auto; /* Adds a scrollbar inside the card */
+}
+
+.custom-list-item {
+  display: flex;
+  justify-content: space-between;
+  background-color: #f1f9fb;
+  border-top: 1px solid #182832;
+  border-left-color: #fff;
+  border-right-color: #fff;
+  padding: 20px 10px; /* Add padding to make the item taller */
+  cursor: pointer; /* Change cursor to pointer on hover */
+}
+
+.custom-list-item:hover {
+  background-color: #e0f0f7;
+}
+
+.custom-link {
+  text-decoration: none;
+  color: inherit;
+  width: 100%;
+  height: 100%;
+  display: block;
 }
