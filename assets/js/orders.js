@@ -1,3 +1,20 @@
+function getLoggedInUserName() {
+  return sessionStorage.getItem('userName');
+}
+
+function updateLoginButton() {
+  const userName = getLoggedInUserName();
+  const loginBtn = document.getElementById('loginBtn');
+
+  if (userName) {
+    loginBtn.textContent = `Hi ${userName}!`;
+  } else {
+    loginBtn.textContent = 'LOGIN';
+  }
+}
+
+updateLoginButton();
+
 //temporary test
 document.addEventListener("DOMContentLoaded", function() {
   setupItemButtons();

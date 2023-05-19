@@ -7,6 +7,10 @@ window.onload = function () {
     client_id: "12439243694-e7sdb14hefrbgge7vc74g6cv4r59a3hd.apps.googleusercontent.com",
     callback: onSignIn,
   });
+  if (sessionStorage.getItem('userName')) {
+    window.isAuthenticated = true;
+    loginBtn.textContent = "Hi " + sessionStorage.getItem('userName') + "!";
+  }
 };
 
 loginBtn.addEventListener('click', () => {
@@ -45,6 +49,7 @@ function sendIdTokenToBackend(idToken) {
     .then(response => {
       if (response.ok) {
         window.isAuthenticated = true;
+        sessionStorage.setItem('userName', window.identity.given_name);
         loginBtn.textContent = "Hi " + window.identity.given_name + "!";
         console.log('User successfully authenticated on the backend');
       } else {
