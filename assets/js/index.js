@@ -25,8 +25,6 @@ function isLoggedIn() {
 const loginButton = document.querySelector('.login-btn');
 loginButton.addEventListener('click', () => {
   if (isLoggedIn()) {
-    window.location.href = 'orders/orders.html';
-  } else {
-    window.location.href = 'login.html';
+    window.location.href = '/orders';
   }
 });
