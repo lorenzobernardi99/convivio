@@ -70,3 +70,22 @@
     //... and adds the "active" class on the current step:
     x[n].className += " active";
 }
+
+
+//Post to database
+const express = require("express");
+    const app = espress();
+    const mongoose = require("mongoose");
+    const bodyParser = require("body-parser");
+
+    app.use(bodyParser.urlencoded({extended: true}));
+
+    app.get("/", function (req, res){
+        res.send("express in working")
+
+    })
+    mongodb+srv://lorenzobernardi2:<password>@cluster0.vmlxnd9.mongodb.net/?retryWrites=true&w=majority
+
+    app.listen(3000, function (){
+        console.log("server running on 3000");
+    }
