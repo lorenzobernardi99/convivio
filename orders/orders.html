@@ -1,71 +1,124 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
-    <meta charset="UTF-8">
-    <title>Convivio order form</title>
-    <script src="/assets/js/order.js"></script>
-    <link rel="stylesheet" href="/assets/css/orderstyle.css">
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Convivio</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Sacramento&display=swap" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,600,700,900&display=swap" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+  <link rel="stylesheet" href="/css/homepage.css">
 </head>
 <body>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand py-0" href="/"><img src="/img/logo.png" alt="logo"></a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="#">ABOUT</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">CATERING</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link login-btn" id="loginBtn" href="#">LOGIN</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+  </nav>
 
-
-<section>
- <div class="container">
-    <form id="regForm" action="/action_page.php">
-            <!-- One "tab" for each step in the form: -->
-            <div class="tab"><h3>Hi User start your order by pressing the "NEXT" button:</h3>
+  <div class="orders-section">
+    <h2>Your Current Orders</h2>
+    <div class="container py-5">
+      <div class="row d-flex justify-content-center align-items-center">
+        <div class="col-lg-8 col-xl-6">
+          <div class="card custom-card border-top border-bottom border-3" style="border-color: #182832!important;">
+            <div class="card-body p-0">
+              <ul class="list-group list-group-flush">
+                <a href="#" class="custom-link item-btn" data-id="12345" data-bs-toggle="modal" data-bs-target="#ordersModal">
+                  <li class="list-group-item custom-list-item">
+                    <div><strong>ID:</strong> 12345</div>
+                    <div><strong>Location:</strong> Main St</div>
+                    <div><strong>Date:</strong> 16/05/2023</div>
+                  </li>
+                </a>
+                <a href="#" class="custom-link item-btn" data-id="67890" data-bs-toggle="modal" data-bs-target="#ordersModal">
+                  <li class="list-group-item custom-list-item">
+                    <div><strong>ID:</strong> 67890</div>
+                    <div><strong>Location:</strong> High St</div>
+                    <div><strong>Date:</strong> 17/05/2023</div>
+                  </li>
+                </a>
+              </ul>
             </div>
-
-        <div class="tab">1. What type of event are you planning?
-            <p><input type="checkbox" value="Wedding reception" placeholder="Wedding reception" oninput="this.className = ''" name="Wedding reception">Wedding reception</p>
-            <p><input type="checkbox" value="Social" placeholder="Social" oninput="this.className = ''" name="Social">Social (Birthday, Anniversary, etc.)</p>
-
+          </div>
         </div>
+      </div>
+    </div>
+  </div>
 
-        <div class="tab">2. When is your event?
-            <p><input type="time" value="time" placeholder="time" oninput="this.className = ''" name="time"></p>
-        </div>
-
-        <div class="tab">3. Where is your event?
-            <p><input type="text" value="place" placeholder="place" oninput="this.className = ''" name="place"></p>
-        </div>
-
-        <div class="tab">4. How many guests do you expect?
-            <p><input type="text" value="guest" placeholder="guest" oninput="this.className = ''" name="guest"></p>
-        </div>
-
-        <div class="tab">5. What format are you envisioning?
-            <p><input type="checkbox" value="Buffet" placeholder="Buffet" oninput="this.className = ''" name="Buffet">Buffet</p>
-            <p><input type="checkbox" value="AlaCarte" placeholder="AlaCarte" oninput="this.className = ''" name="AlaCarte">A la carte</p>
-        </div>
-
-
-
-
-
-        <div style="overflow:auto;">
-            <div style="float:right;">
-                <button type="button" class="button" id="prevBtn" onclick="nextPrev(-1)">Previous</button>
-                <button type="button" class="button" id="nextBtn" onclick="nextPrev(1)">Next</button>
+  <div class="modal fade" id="ordersModal" tabindex="-1" aria-labelledby="ordersModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content rounded">
+        <div class="modal-body">
+          <div class="main-content">
+            <button type="button" class="close-btn" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <div class="text-center mb-3">
+              <h5 class="modal-title" style="margin-top: -1rem">Order Details</h5>
             </div>
+            <div><strong>ID:</strong> 12345</div>
+            <div><strong>Location:</strong> Main St</div>
+            <div><strong>Date:</strong> 16/05/2023</div>
+            <div class="text-center mt-3">
+              <div><strong>Description:</strong></div>
+              <p class="mt-3">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+            </div> 
+          </div>
         </div>
-
-        <!-- Circles which indicates the steps of the form: -->
-
-        <div style="text-align:center;margin-top:40px;">
-            <span class="step"></span>
-            <span class="step"></span>
-            <span class="step"></span>
-            <span class="step"></span>
-            <span class="step"></span>
-            <span class="step"></span>
-            <span class="step"></span>
+        <div class="modal-footer justify-content-center">
+          <div><strong>Total cost:</strong> €10.00</div>
         </div>
-     </form>
-   </div>
-</section>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-container">
+    <footer class="my-5">
+      <div class="container text-center text-md-start">
+        <div class="row align-items-center">
+          <div class="col-md-4 about-us-section">
+              <h3>ABOUT US</h3>
+              <p>We pride ourselves on creating unique menus to accommodate every special event. <br>
+                Our goal is to always provide the best experience placing the customers at the top of our priority.</p>
+          </div>
+          <div class="col text-center">
+            <img src="/img/logo_noname.png" alt="logo" class="footer-logo">
+          </div>
+          <div class="col-md-4 footer-info-section">
+              <div>
+                <h3>OUR LOCATION</h3>
+                <p>15 Main Street, Trento, Italy</p>
+              </div>
+              <div>
+                <h3>CONTACT INFORMATION</h3>
+                <p>Phone: +39 (047) 4567-890<br>Email: contact@convivio.com</p>
+              </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+  <script src="/js/orders.js"></script>
 </body>
-
 </html>
