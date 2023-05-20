@@ -15,8 +15,27 @@ window.onload = function () {
 
 loginBtn.addEventListener('click', () => {
   if (window.isAuthenticated) {
-    window.location.href = '/orders';
-  }else{
+    fetch('/orders', {
+      headers: {
+        'Authorization': sessionStorage.getItem('idToken'),
+      },
+    })
+      .then((response) => {
+        if (response.ok) {
+          return response.text();
+        } else {
+          throw new Error('Unauthorized');
+        }
+      })
+      .then((html) => {
+        document.open();
+        document.write(html);
+        document.close();
+      })
+      .catch((error) => {
+        console.error('Error fetching orders page:', error.message);
+      });
+  } else {
     googleSignIn();
   }
 });
@@ -29,14 +48,10 @@ function googleSignIn() {
 
 function onSignIn(response) {
   window.identity = parseJwt(response.credential);
-
-  console.log('Encoded JWT ID token:', response.credential);
-
   sendIdTokenToBackend(response.credential);
 }
 
 function sendIdTokenToBackend(idToken) {
-  // Replace this with your backend API endpoint
   const backendApiUrl = 'http://localhost:5500/auth/google';
 
   fetch(backendApiUrl, {
@@ -50,6 +65,7 @@ function sendIdTokenToBackend(idToken) {
       if (response.ok) {
         window.isAuthenticated = true;
         sessionStorage.setItem('userName', window.identity.given_name);
+        sessionStorage.setItem('idToken', idToken);
         loginBtn.textContent = "Hi " + window.identity.given_name + "!";
         console.log('User successfully authenticated on the backend');
       } else {
