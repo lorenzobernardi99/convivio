@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 // Connect to MongoDB
-mongoose.connect('mongodb+srv://Jacopo:Mongoloide@atlascluster.ulvx08n.mongodb.net/mydatabase?retryWrites=true&w=majority', {
+mongoose.connect('mongodb+srv://Jacopo:Mongoloide@atlascluster.ulvx08n.mongodb.net/Convivio.Orders', {
   useNewUrlParser: true,
   useUnifiedTopology: true
 }).then(() => {
