@@ -18,7 +18,7 @@ app.use(bodyParser.urlencoded({
     extended: true
 }));
 
-app.post('/orderform.html', function(req,res){
+app.post('/', function(req,res){
     var type1 = req.body.wedding;
     var type2 = req.body.corporate;
     var type3 = req.body.social;
