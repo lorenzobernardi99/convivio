@@ -1,107 +1,69 @@
+// Import the required modules
+const express = require('express');
 const mongoose = require('mongoose');
 
-// Connect to MongoDB
+// Create an instance of Express
+const app = express();
+
+// Connect to MongoDB using Mongoose
 mongoose.connect('mongodb+srv://Jacopo:Mongoloide@atlascluster.ulvx08n.mongodb.net/Convivio.Orders', {
   useNewUrlParser: true,
-  useUnifiedTopology: true
-}).then(() => {
-  console.log('Connected to MongoDB');
-}).catch(error => {
-  console.error('Error connecting to MongoDB:', error);
+  useUnifiedTopology: true,
 });
 
-// Define the schema for the Order model
+// Define the schema for your form data
 const orderSchema = new mongoose.Schema({
-  type: [String],
-  date: String,
+  type: String,
+  date: Date,
   time: String,
   place: String,
-  guests: String,
-  format: [String],
+  guests: Number,
+  format: {
+    buffet: Boolean,
+    alacarte: Boolean,
+  },
   apetizers: [String],
-  mainCourses: [String]
+  mainCourses: [String],
 });
 
-// Create the Order model
+// Create a model based on the schema
 const Order = mongoose.model('Order', orderSchema);
 
-// Assuming you have the HTML form code in your question
+// Configure Express to parse JSON and form data
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-// Get a reference to the orderForm and add a submit event listener
-const orderForm = document.getElementById('orderForm');
-orderForm.addEventListener('submit', handleFormSubmit);
-
-// Function to handle the form submission
-function handleFormSubmit(event) {
-  event.preventDefault(); // Prevent the default form submission behavior
-
-  // Get the selected checkboxes for each step
-  const step1Inputs = document.querySelectorAll('#step-1 input[type="checkbox"]:checked');
-  const step2DateInput = document.querySelector('#step-2 input[type="date"]');
-  const step2TimeInput = document.querySelector('#step-2 input[type="time"]');
-  const step3PlaceInput = document.querySelector('#step-3 input[type="text"]');
-  const step4GuestsInput = document.querySelector('#step-4 input[type="text"]');
-  const step5Inputs = document.querySelectorAll('#step-5 input[type="checkbox"]:checked');
-  const formatOptions = document.querySelectorAll('#step-6 button');
-
-  // Create an object to store the order data
-  const order = {
-    type: [],
-    date: step2DateInput.value,
-    time: step2TimeInput.value,
-    place: step3PlaceInput.value,
-    guests: step4GuestsInput.value,
-    format: [],
-    apetizers: [],
-    mainCourses: [],
-  };
-
-  // Extract the selected checkboxes for step 1 (event type)
-  step1Inputs.forEach(input => {
-    order.type.push(input.name);
-  });
-
-  // Extract the selected checkboxes for step 5 (format options)
-  step5Inputs.forEach(input => {
-    order.format.push(input.name);
-  });
-
-  // Extract the selected format option for step 6 (apetizers or main courses)
-  formatOptions.forEach(option => {
-    option.addEventListener('click', function() {
-      if (option.getAttribute('step_number') === '10') {
-        // Go to apetizers step
-        order.format.push('apetizers');
-      } else if (option.getAttribute('step_number') === '20') {
-        // Go to main courses step
-        order.format.push('main courses');
-      }
-
-      // Send the order to the MongoDB database using Mongoose
-      sendOrderToDatabase(order);
+// Define the route to handle form submission
+app.post('/api/orders', async (req, res) => {
+  try {
+    // Create a new order instance with the form data
+    const newOrder = new Order({
+      type: req.body.type,
+      date: req.body.date,
+      time: req.body.time,
+      place: req.body.place,
+      guests: req.body.guests,
+      format: {
+        buffet: req.body.buffet === 'on',
+        alacarte: req.body.alacarte === 'on',
+      },
+      apetizers: req.body.apetizer || [],
+      mainCourses: req.body.maincourse || [],
     });
-  });
-}
 
-// Function to send the order to the MongoDB database
-function sendOrderToDatabase(order) {
-  // Assuming you have a Mongoose model for the orders collection called 'Order'
+    // Save the order to the database
+    await newOrder.save();
 
-  // Create a new instance of the Order model with the order data
-  const newOrder = new Order(order);
+    // Send a JSON response indicating success
+    res.json({ message: 'Order submitted successfully' });
+  } catch (error) {
+    // Handle any errors that occur during the process
+    console.error(error);
+    res.status(500).json({ error: 'An error occurred while submitting the form' });
+  }
+});
 
-  // Save the order to the database
-  newOrder.save(function(err) {
-    if (err) {
-      console.error('Error saving order:', err);
-      return;
-    }
-
-    // Order saved successfully
-    console.log('Order saved to the database:', newOrder);
-
-    // Redirect to the success page
-    window.location.href = 'order_success.html';
-  });
-}
-}
+// Start the server
+app.listen(3000, () => {
+  console.log('Server is running on port 3000');
+});
