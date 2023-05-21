@@ -6,7 +6,7 @@ const mongoose = require('mongoose');
 const app = express();
 
 // Connect to MongoDB using Mongoose
-mongoose.connect('mongodb+srv://Jacopo:Mongoloide@atlascluster.ulvx08n.mongodb.net/Convivio.Orders', {
+mongoose.connect('mongodb+srv://Lorenzo:Lorber031502@cluster0.vmlxnd9.mongodb.net/?retryWrites=true&w=majority', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
