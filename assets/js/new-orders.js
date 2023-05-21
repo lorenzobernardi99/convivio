@@ -28,12 +28,12 @@ function submitOrderForm() {
     success: function (response) {
       // Handle success response
       console.log("Order submitted successfully");
-      // Redirect to success page or show a success message
+      window.location.href = "order_success.html";
     },
     error: function (xhr, status, error) {
       // Handle error response
       console.log("An error occurred while submitting the form");
-      // Show an error message to the user
+      window.location.href = "index.html";
     }
   });
 }
