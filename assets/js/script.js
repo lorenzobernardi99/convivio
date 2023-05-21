@@ -52,7 +52,7 @@ function onSignIn(response) {
 }
 
 function sendIdTokenToBackend(idToken) {
-  const backendApiUrl = 'http://localhost:5500/auth/google';
+  const backendApiUrl = 'https://convivio.vercel.app/auth/google';
 
   fetch(backendApiUrl, {
     method: 'POST',
