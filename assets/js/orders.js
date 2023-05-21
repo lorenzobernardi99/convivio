@@ -55,7 +55,7 @@ function setupItemButtons() {
 
 async function fetchItemDetails(itemId) {
   try {
-    const response = await fetch(`/assets/js/db/${itemId}`); // Assuming a route '/items/:id' that retrieves item details from the MongoDB database
+    const response = await fetch(`db/${Id}`); 
     if (!response.ok) {
       throw new Error("Failed to fetch item details");
     }
