@@ -14,8 +14,10 @@ function submitOrderForm() {
     }).get(),
     maincourse: $("input[name='maincourse']:checked").map(function () {
       return $(this).val();
-    }).get()
+    }).get(),
+    email: getCurrentUserEmail() // Include the logged-in user's email
   };
+
 
   // Send AJAX POST request
   $.ajax({
@@ -35,6 +37,13 @@ function submitOrderForm() {
     }
   });
 }
+
+// Function to get the email of the currently logged-in user
+function getCurrentUserEmail() {
+  // Retrieve the email from session storage
+  return sessionStorage.getItem('Email') || '';
+}
+
 
 // Add event listener to form submit button
 $("#orderForm").on("submit", function (event) {
