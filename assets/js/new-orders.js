@@ -19,7 +19,7 @@ function submitOrderForm() {
 
   // Send AJAX POST request
   $.ajax({
-    url: "/api/orders",
+    url: "/assets/js/send-order.js",
     type: "POST",
     dataType: "json",
     data: formData,
