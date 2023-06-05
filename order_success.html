@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta http-equiv="refresh" content="5;url=index.html/" />
+  <meta http-equiv="refresh" content="7;url=index.html/"/>
   <title>Order completed</title>
   <link rel="stylesheet"
         href=
@@ -12,26 +12,48 @@
 
   <link rel="stylesheet" type="text/css" href="style.css">
 </head>
+
+
+<style>
+
+  .container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      position: relative;
+    }
+
+    #order_success {
+      position: absolute;
+      top: 20%;
+      animation: pulse 1s;
+    }
+
+    @keyframes pulse {
+      0% {
+        transform: scale(1);
+        opacity: 1;
+      }
+      50% {
+        transform: scale(1.2);
+        opacity: 1;
+      }
+      100% {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+</style>
+
 <body>
-<br>
-<br>
-<br>
-<div class="container" >
-  <div class="row">
-    <div class="col-md-3">
-    </div>
-
-    <div class="col-md-6 main">
-
-      <h1> Order completed Successful</h1>
-
-    </div>
-
-
-    <div class="col-md-3">
-    </div>
-
+  <img src="/img/logo.png" alt="logo"></a>
+  <div class="container" style="display: flex; justify-content: center; align-items: center; height: 100vh;">
+    <h1 id="order_success"> Ordine effettuato!</h1>
+    <br>
+    <h2 style="position: absolute; text-align: center; font-size: 22px;">
+      La ringraziamo per averci scelto<br>La preghiamo di attendere, verrà reindirizzato alla pagina principale tra poco
+    </h2>
   </div>
-</div>
 </body>
 </html>
