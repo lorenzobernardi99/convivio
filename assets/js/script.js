@@ -67,6 +67,7 @@ function sendIdTokenToBackend(idToken) {
       if (response.ok) {
         window.isAuthenticated = true;
         sessionStorage.setItem('userName', window.identity.given_name);
+        sessionStorage.setItem('email', window.identity.email);
         sessionStorage.setItem('idToken', idToken);
         loginBtn.textContent = "Hi " + window.identity.given_name + "!";
         console.log('User successfully authenticated on the backend');
@@ -109,20 +110,4 @@ planOrder.addEventListener('click', () => {
       document.getElementById('loginWarning').style.display = 'none';
     }, 10000);
   }
-});
-
-sendOrder.addEventListener('click', () => {
-  fetch('/confirmorder', {
-    headers: {
-      'Content-Type': 'text/html',
-    },
-  })
-    .then((html) => {
-      document.open();
-      document.write(html);
-      document.close();
-    })
-    .catch((error) => {
-      console.error('Error fetching confirm page:', error.message);
-    });
 });

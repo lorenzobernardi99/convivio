@@ -1,5 +1,21 @@
+const token = sessionStorage.getItem('idToken');
+
+function updateLoginButton() {
+  const userName = sessionStorage.getItem('userName');
+  const loginBtn = document.getElementById("googleSignInButton");
+
+  if (userName) {
+    loginBtn.textContent = `Hi ${userName}!`;
+  } else {
+    loginBtn.textContent = 'LOGIN';
+  }
+}
+
+updateLoginButton();
+
 // Function to handle form submission
 function submitOrderForm() {
+  console.log("chiamata");
   // Get form data
   var formData = {
     type: $("input[name='type']:checked").val(),
@@ -21,27 +37,29 @@ function submitOrderForm() {
 
   // Send AJAX POST request
   $.ajax({
-    url: "send-order.js",
+    url: "/api/orders",
     type: "POST",
     dataType: "json",
     data: formData,
+    beforeSend: function (xhr) {
+      xhr.setRequestHeader('Authorization', `Bearer ${token}`);
+    },
     success: function (response) {
       // Handle success response
       console.log("Order submitted successfully");
-      window.location.href = "order_success.html";
+      window.location.href = "/confirmform";
     },
     error: function (xhr, status, error) {
       // Handle error response
       console.log("An error occurred while submitting the form");
-      window.location.href = "index.html";
+      window.location.href = "/";
     }
   });
 }
 
 // Function to get the email of the currently logged-in user
 function getCurrentUserEmail() {
-  // Retrieve the email from session storage
-  return sessionStorage.getItem('Email') || '';
+  return sessionStorage.getItem('email');
 }
 
 

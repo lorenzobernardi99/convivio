@@ -1,9 +1,5 @@
-function getLoggedInUserName() {
-  return sessionStorage.getItem('userName');
-}
-
 function updateLoginButton() {
-  const userName = getLoggedInUserName();
+  const userName = sessionStorage.getItem('userName');
   const loginBtn = document.getElementById('loginBtn');
 
   if (userName) {

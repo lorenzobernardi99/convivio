@@ -2,6 +2,7 @@ const express = require('express');
 const path = require('path')
 const db = require("./assets/js/db");
 const User = require('./assets/js/userModel');
+const Order = require('./assets/js/orderModel');
 const validateToken = require('./assets/js/tokenChecker');
 const port = 5500;
 const { OAuth2Client } = require('google-auth-library');
@@ -53,6 +54,31 @@ app.post('/auth/google', async (req, res) => {
   } catch (error) {
     console.error('Error verifying ID token:', error.message);
     res.status(401).send('Invalid ID token');
+  }
+});
+
+app.post('/api/orders', async (req, res) => {
+  try {
+    const newOrder = new Order({
+      type: req.body.type,
+      date: req.body.date,
+      time: req.body.time,
+      place: req.body.place,
+      guests: req.body.guests,
+      format: {
+        buffet: req.body.buffet,
+        alacarte: req.body.alacarte,
+      },
+      apetizers: req.body.apetizer || [],
+      mainCourses: req.body.maincourse || [],
+      email: req.body.email,
+    });
+
+    await newOrder.save();
+    res.json({ message: 'Order submitted successfully' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'An error occurred while submitting the form' });
   }
 });
 
