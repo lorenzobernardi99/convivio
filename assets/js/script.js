@@ -1,6 +1,8 @@
 window.isAuthenticated = false;
 window.identity = {};
 let loginBtn = document.getElementById("googleSignInButton");
+let planOrder = document.getElementById("planOrder");
+let sendOrder = document.getElementById("sendOrder");
 
 window.onload = function () {
   google.accounts.id.initialize({
@@ -52,8 +54,8 @@ function onSignIn(response) {
 }
 
 function sendIdTokenToBackend(idToken) {
-  const backendApiUrl = 'https://convivio2.vercel.app/auth/google';
-
+  //const backendApiUrl = 'https://convivio2.vercel.app/auth/google';      deploy link
+  const backendApiUrl = 'http://localhost:5500/auth/google';
   fetch(backendApiUrl, {
     method: 'POST',
     headers: {
@@ -76,3 +78,51 @@ function sendIdTokenToBackend(idToken) {
       console.error('Error sending ID token to backend:', error);
     });
 }
+
+planOrder.addEventListener('click', () => {
+  if (window.isAuthenticated) {
+    fetch('/orderform', {
+      headers: {
+        'Authorization': sessionStorage.getItem('idToken'),
+      },
+    })
+      .then((response) => {
+        if (response.ok) {
+          return response.text();
+        } else {
+          throw new Error('Unauthorized');
+        }
+      })
+      .then((html) => {
+        document.open();
+        document.write(html);
+        document.close();
+      })
+      .catch((error) => {
+        console.error('Error fetching form page:', error.message);
+      });
+  } else {
+    document.getElementById('loginWarning').innerHTML = 'You need to login first to continue!';
+    document.getElementById('loginWarning').classList.add('warning');
+    document.getElementById('loginWarning').style.display = 'block';
+    setTimeout(function() {
+      document.getElementById('loginWarning').style.display = 'none';
+    }, 10000);
+  }
+});
+
+sendOrder.addEventListener('click', () => {
+  fetch('/confirmorder', {
+    headers: {
+      'Content-Type': 'text/html',
+    },
+  })
+    .then((html) => {
+      document.open();
+      document.write(html);
+      document.close();
+    })
+    .catch((error) => {
+      console.error('Error fetching confirm page:', error.message);
+    });
+});

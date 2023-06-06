@@ -23,6 +23,14 @@ app.get('/orders', validateToken, (req, res) => {
   res.sendFile(path.resolve(__dirname, 'orders/orders.html'));
 });
 
+app.get('/orderform', validateToken, (req, res) => {
+  res.sendFile(path.resolve(__dirname, './orderform.html'));
+});
+
+app.get('/confirmform', validateToken, (req, res) => {
+  res.sendFile(path.resolve(__dirname, './order_success.html'));
+});
+
 app.post('/auth/google', async (req, res) => {
   const { id_token } = req.body;
   try {
@@ -31,7 +39,7 @@ app.post('/auth/google', async (req, res) => {
       audience: googleClientId,
     });
     const payload = ticket.getPayload();
-    console.log(payload.email)
+
     let user = await User.findOne({ email: payload.email }).exec();
 
     if (!user) {
