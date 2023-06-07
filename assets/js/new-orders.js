@@ -15,7 +15,6 @@ updateLoginButton();
 
 // Function to handle form submission
 function submitOrderForm() {
-  console.log("chiamata");
   // Get form data
   var formData = {
     type: $("input[name='type']:checked").val(),
@@ -34,10 +33,9 @@ function submitOrderForm() {
     email: getCurrentUserEmail() // Include the logged-in user's email
   };
 
-
   // Send AJAX POST request
   $.ajax({
-    url: "/api/orders",
+    url: "/submitorder",
     type: "POST",
     dataType: "json",
     data: formData,

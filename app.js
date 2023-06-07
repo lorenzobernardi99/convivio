@@ -42,7 +42,6 @@ app.post('/auth/google', async (req, res) => {
     const payload = ticket.getPayload();
 
     let user = await User.findOne({ email: payload.email }).exec();
-
     if (!user) {
       user = new User({ email: payload.email, name: payload.given_name });
       await user.save().catch((err)=>{
@@ -57,7 +56,7 @@ app.post('/auth/google', async (req, res) => {
   }
 });
 
-app.post('/api/orders', async (req, res) => {
+app.post('/submitorder', async (req, res) => {
   try {
     const newOrder = new Order({
       type: req.body.type,
@@ -81,6 +80,22 @@ app.post('/api/orders', async (req, res) => {
     res.status(500).json({ error: 'An error occurred while submitting the form' });
   }
 });
+
+app.get('/api/orders', validateToken, async (req, res) => {
+  const email = req.query.email;
+  if (email) {
+    try {
+      const orders = await Order.find({ email: email }).exec();
+      res.json(orders);
+    } catch (error) {
+      console.error('Error fetching orders:', error.message);
+      res.status(500).send('Error fetching orders');
+    }
+  } else {
+    res.status(400).send('Email query parameter is missing');
+  }
+});
+
 
 app.listen(port, () => {
   console.log('Server running on http://localhost:' + port);
