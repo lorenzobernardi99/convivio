@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
   const orders = await fetchOrders(userEmail);
   addOrdersToList(orders);
-  setupItemButtons();
+  setupItemButtons(orders);
 });
 
 async function fetchOrders(email) {
@@ -62,24 +62,40 @@ function addOrdersToList(orders) {
   });
 }
 
-function setupItemButtons() {
+function setupItemButtons(orders) {
   const modal = document.getElementById("ordersModal");
   const itemButtons = document.querySelectorAll(".item-btn");
 
   itemButtons.forEach((itemBtn) => {
     itemBtn.addEventListener("click", (e) => {
-      const itemId = e.currentTarget.getAttribute("data-id"); // Get the data-id attribute value
-      const itemDetails = fetchItemDetails(itemId);
-      updateModalContent(itemDetails);
-      $(modal).modal("show");
+      const itemId = e.currentTarget.getAttribute("data-id");
+      const matchingOrder = orders.find(order => order._id.toString().substring(0, 3) === itemId);
+
+      if (matchingOrder) {
+        const formatType = matchingOrder.format.buffet ? 'Buffet' : 'A la carte';
+        const itemDetails = {
+          id: matchingOrder._id.toString().substring(0, 3),
+          place: matchingOrder.place,
+          date: formatDate(matchingOrder.date),
+          time: matchingOrder.time,
+          guests: matchingOrder.guests,
+          formatType: formatType
+        };
+        updateModalContent(itemDetails);
+        $(modal).modal("show");
+      } else {
+        console.log("Couldn't find a matching order");
+      }
     });
   });
-}
+}      
 
 function updateModalContent(itemDetails) {
   document.querySelector(".modal-body div:nth-child(3)").innerHTML = `<strong>ID:</strong> ${itemDetails.id}`;
   document.querySelector(".modal-body div:nth-child(4)").innerHTML = `<strong>Location</strong> ${itemDetails.place}`;
-  document.querySelector(".modal-body div:nth-child(5)").innerHTML = `<strong>Date:</strong> ${itemDetails.date}`;
+  document.querySelector(".modal-body div:nth-child(5)").innerHTML = `<strong>Date:</strong> ${itemDetails.date} at ${itemDetails.time}`;
+  document.querySelector(".modal-body div:nth-child(6)").innerHTML = `<strong>Guests:</strong> ${itemDetails.guests}`;
+  document.querySelector(".modal-body div:nth-child(7)").innerHTML = `<strong>Format Type:</strong> ${itemDetails.formatType}`;
 }
 
 function formatDate(isoDateString) {
