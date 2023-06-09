@@ -54,8 +54,8 @@ function onSignIn(response) {
 }
 
 function sendIdTokenToBackend(idToken) {
-  //const backendApiUrl = 'https://convivio2.vercel.app/auth/google';      deploy link
-  const backendApiUrl = 'http://localhost:5500/auth/google';
+  const backendApiUrl = 'https://convivio2.vercel.app/auth/google';
+  //const backendApiUrl = 'http://localhost:5500/auth/google';
   fetch(backendApiUrl, {
     method: 'POST',
     headers: {
