@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Gestione menu</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Convivio</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Sacramento&display=swap" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,600,700,900&display=swap" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+  <link rel="stylesheet" href="/assets/css/homepage.css">
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="container-fluid">
+    <a class="navbar-brand py-0" href="/"><img src="/img/logo.png" alt="logo"></a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" href="#">ABOUT</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">CATERING</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link login-btn" id="loginBtn" href="#">LOGIN</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<h1>Gestione menu</h1>
+
+<div class="orders-section">
+<h2>Aggiungi un piatto</h2>
+<form id="addDishForm">
+  <label for="dishName">Nome piatto:</label>
+  <input type="text" id="dishName" required>
+
+  <label for="dishType">Tipo piatto:</label>
+  <select id="dishType" required>
+    <option value="appetizer">Appetizer</option>
+    <option value="mainCourse">Main Course</option>
+  </select>
+
+  <label for="dishPrice">Prezzo piatto:</label>
+  <input type="text" id="dishPrice" required>
+
+  <button type="submit">Aggiungi al DB</button>
+</form>
+</div>
+
+<div class="orders-section">
+  <h2>Piatti presenti nel menu'</h2>
+  <div class="container py-5">
+    <div class="row d-flex justify-content-center align-items-center">
+      <div class="col-lg-8 col-xl-6">
+        <div class="card custom-card border-top border-bottom border-3" style="border-color: #182832!important;">
+          <div class="card-body p-0">
+            <ul class="list-group list-group-flush">
+              <table id="dishTable">
+                <thead>
+                <tr>
+                  <th>Nome</th>
+                  <th>Tipo</th>
+                  <th>Prezzo</th>
+                  <th></th>
+                </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script>
+  function addDish() {
+    event.preventDefault();
+    var dishName = $("#dishName").val();
+    var dishType = $("#dishType").val();
+    var dishPrice = $("#dishPrice").val();
+
+    $.ajax({
+      url: "/api/dishes",
+      type: "POST",
+      dataType: "json",
+      data: {
+        name: dishName,
+        type: dishType,
+        price: dishPrice
+      },
+      success: function (response) {
+        console.log("Dish added successfully");
+        $("#dishName").val("");
+        fetchDishes();
+      },
+      error: function (xhr, status, error) {
+        console.log("An error occurred while adding the dish");
+      }
+    });
+  }
+
+  function deleteDish(dishId) {
+    $.ajax({
+      url: "/api/dishes/" + dishId,
+      type: "DELETE",
+      dataType: "json",
+      success: function (response) {
+        console.log("Dish deleted successfully");
+        fetchDishes();
+      },
+      error: function (xhr, status, error) {
+        console.log("An error occurred while deleting the dish");
+      }
+    });
+  }
+
+  function fetchDishes() {
+    $.ajax({
+      url: "/api/dishes",
+      type: "GET",
+      dataType: "json",
+      success: function (response) {
+        console.log("Dishes retrieved successfully");
+
+        $("#dishTable tbody").empty();
+
+        response.forEach(function (dish) {
+          var row = "<tr>" +
+                  "<td>" + dish.name + "</td>" +
+                  "<td>" + dish.type + "</td>" +
+                  "<td>" + dish.price + "</td>" +
+                  "<td><button onclick=\"deleteDish('" + dish._id + "')\">Delete</button></td>" +
+                  "</tr>";
+          $("#dishTable tbody").append(row);
+        });
+      },
+      error: function (xhr, status, error) {
+        console.log("An error occurred while retrieving the dishes");
+      }
+    });
+  }
+
+  $(document).ready(function() {
+    $("#addDishForm").submit(addDish);
+    fetchDishes();
+  });
+</script>
+
+</body>
+</html>
