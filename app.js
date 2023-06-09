@@ -2,11 +2,15 @@ const express = require('express');
 const path = require('path')
 const db = require("./assets/js/db");
 const User = require('./assets/js/userModel');
+const Order = require('./assets/js/orderModel');
 const validateToken = require('./assets/js/tokenChecker');
-const port = 5500;
+const port = 63342;
 const { OAuth2Client } = require('google-auth-library');
 const googleClientId = '12439243694-e7sdb14hefrbgge7vc74g6cv4r59a3hd.apps.googleusercontent.com';
 const client = new OAuth2Client(googleClientId);
+const sendOrder = require('./send-order');
+const orderRouter = require('./routes/orderRouter');
+
 
 db.connect();
 
@@ -23,6 +27,14 @@ app.get('/orders', validateToken, (req, res) => {
   res.sendFile(path.resolve(__dirname, 'orders/orders.html'));
 });
 
+app.get('/orderform', validateToken, (req, res) => {
+  res.sendFile(path.resolve(__dirname, './orderform.html'));
+});
+
+app.get('/confirmform', validateToken, (req, res) => {
+  res.sendFile(path.resolve(__dirname, './order_success.html'));
+});
+
 app.post('/auth/google', async (req, res) => {
   const { id_token } = req.body;
   try {
@@ -31,9 +43,8 @@ app.post('/auth/google', async (req, res) => {
       audience: googleClientId,
     });
     const payload = ticket.getPayload();
-    console.log(payload.email)
-    let user = await User.findOne({ email: payload.email }).exec();
 
+    let user = await User.findOne({ email: payload.email }).exec();
     if (!user) {
       user = new User({ email: payload.email, name: payload.given_name });
       await user.save().catch((err)=>{
@@ -47,6 +58,52 @@ app.post('/auth/google', async (req, res) => {
     res.status(401).send('Invalid ID token');
   }
 });
+
+app.post('/submitorder', async (req, res) => {
+  try {
+    const newOrder = new Order({
+      type: req.body.type,
+      date: req.body.date,
+      time: req.body.time,
+      place: req.body.place,
+      guests: req.body.guests,
+      format: {
+        buffet: req.body.buffet,
+        alacarte: req.body.alacarte,
+      },
+      apetizers: req.body.apetizer || [],
+      mainCourses: req.body.maincourse || [],
+      email: req.body.email,
+    });
+
+    await newOrder.save();
+    res.json({ message: 'Order submitted successfully' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'An error occurred while submitting the form' });
+  }
+});
+const sendOrder = require('./send-order');
+
+
+app.use('/api/send-order', sendOrder);
+
+app.get('/api/orders', validateToken, async (req, res) => {
+  const email = req.query.email;
+  if (email) {
+    try {
+      const orders = await Order.find({ email: email }).exec();
+      res.json(orders);
+    } catch (error) {
+      console.error('Error fetching orders:', error.message);
+      res.status(500).send('Error fetching orders');
+    }
+  } else {
+    res.status(400).send('Email query parameter is missing');
+  }
+});
+app.use('/api/dishes', async (req, res));
+
 
 app.listen(port, () => {
   console.log('Server running on http://localhost:' + port);
