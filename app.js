@@ -85,6 +85,21 @@ app.post('/submitorder', async (req, res) => {
   }
 });
 
+app.get('/api/dishes', async (req, res) => {
+try {
+  // Fetch the appetizers and main dishes from the database
+  const appetizers = await Dish.find({ type: 'appetizer' }).lean().exec();
+  const mainDishes = await Dish.find({ type: 'mainCourse' }).lean().exec();
+
+  // Send the JSON response with the dishes
+  res.json({ appetizers, mainDishes });
+} catch (error) {
+  // Handle any errors that occur during the process
+  console.error(error);
+  res.status(500).json({ error: 'An error occurred while fetching dishes' });
+}
+});
+
 app.get('/api/orders', validateToken, async (req, res) => {
   const email = req.query.email;
   if (email) {
