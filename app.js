@@ -100,6 +100,23 @@ app.get('/api/orders', validateToken, async (req, res) => {
   }
 });
 
+app.post('/api/save-order-status', async (req, res) => {
+  const { orderId, orderStatus } = req.body;
+
+  try {
+    const order = await Order.findOneAndUpdate({ _id: orderId }, { status: orderStatus }, { new: true });
+
+    if (!order) {
+      return res.status(404).json({ error: 'Order not found' });
+    }
+
+    res.json({ message: 'Order status updated successfully', order });
+  } catch (error) {
+    console.error('Error updating order status:', error);
+    res.status(500).json({ error: 'An error occurred while updating the order status' });
+  }
+});
+
 
 app.listen(port, () => {
   console.log('Server running on http://localhost:' + port);
