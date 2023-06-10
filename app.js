@@ -24,10 +24,6 @@ app.get('/orders', validateToken, (req, res) => {
   res.sendFile(path.resolve(__dirname, 'orders/orders.html'));
 });
 
-app.get('/admin', validateToken, (req, res) => {
-  res.sendFile(path.resolve(__dirname, './order_admin.html'));
-});
-
 app.get('/orderform', validateToken, (req, res) => {
   res.sendFile(path.resolve(__dirname, './orderform.html'));
 });
@@ -87,18 +83,25 @@ app.post('/submitorder', async (req, res) => {
 
 app.get('/api/orders', validateToken, async (req, res) => {
   const email = req.query.email;
-  if (email) {
-    try {
-      const orders = await Order.find({ email: email }).exec();
-      res.json(orders);
-    } catch (error) {
-      console.error('Error fetching orders:', error.message);
-      res.status(500).send('Error fetching orders');
+  const isAdmin = req.query.isAdmin === 'true';
+  
+  try {
+    let orders;
+    if (isAdmin) {
+      orders = await Order.find().exec();
+    } else if (email) {
+      orders = await Order.find({ email: email }).exec();
+    } else {
+      res.status(400).send('Email query parameter is missing');
+      return;
     }
-  } else {
-    res.status(400).send('Email query parameter is missing');
+    res.json(orders);
+  } catch (error) {
+    console.error('Error fetching orders:', error.message);
+    res.status(500).send('Error fetching orders');
   }
 });
+
 
 
 app.listen(port, () => {

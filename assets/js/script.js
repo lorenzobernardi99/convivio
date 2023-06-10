@@ -17,10 +17,8 @@ window.onload = function () {
 
 loginBtn.addEventListener('click', () => {
   if (window.isAuthenticated) {
-    const isAdmin = sessionStorage.getItem('isAdmin') === 'true';
-    const targetUrl = isAdmin ? '/admin' : '/orders';
 
-    fetch(targetUrl, {
+    fetch('/orders', {
       headers: {
         'Authorization': sessionStorage.getItem('idToken'),
       },
@@ -57,8 +55,8 @@ function onSignIn(response) {
 }
 
 function sendIdTokenToBackend(idToken) {
-  const backendApiUrl = 'https://convivio-phi.vercel.app/auth/google';
-  //const backendApiUrl = 'http://localhost:5500/auth/google';
+  //const backendApiUrl = 'https://convivio-phi.vercel.app/auth/google';
+  const backendApiUrl = 'http://localhost:5500/auth/google';
   fetch(backendApiUrl, {
     method: 'POST',
     headers: {
