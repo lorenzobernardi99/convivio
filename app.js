@@ -94,7 +94,6 @@ app.post('/submitorder', async (req, res) => {
   }
 });
 
-const sendOrder = require('./send-order');
 app.use('/api/send-order', sendOrder);
 
 
