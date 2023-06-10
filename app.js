@@ -93,10 +93,10 @@ app.post('/submitorder', async (req, res) => {
     res.status(500).json({ error: 'An error occurred while submitting the form' });
   }
 });
+
 const sendOrder = require('./send-order');
-
-
 app.use('/api/send-order', sendOrder);
+
 
 app.get('/api/orders', validateToken, async (req, res) => {
   const email = req.query.email;
@@ -112,8 +112,8 @@ app.get('/api/orders', validateToken, async (req, res) => {
     res.status(400).send('Email query parameter is missing');
   }
 });
-app.use('/api/dishes', async (req, res));
 
+app.use('/api/dishes', async (req, res));
 
 app.listen(port, () => {
   console.log('Server running on http://localhost:' + port);
