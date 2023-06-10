@@ -81,6 +81,21 @@ app.post('/submitorder', async (req, res) => {
   }
 });
 
+app.get('/api/dishes', async (req, res) => {
+try {
+  // Fetch the appetizers and main dishes from the database
+  const appetizers = await Dish.find({ type: 'appetizer' }).lean().exec();
+  const mainDishes = await Dish.find({ type: 'mainCourse' }).lean().exec();
+
+  // Send the JSON response with the dishes
+  res.json({ appetizers, mainDishes });
+} catch (error) {
+  // Handle any errors that occur during the process
+  console.error(error);
+  res.status(500).json({ error: 'An error occurred while fetching dishes' });
+}
+});
+
 app.get('/api/orders', validateToken, async (req, res) => {
   const email = req.query.email;
   const isAdmin = req.query.isAdmin === 'true';
@@ -99,6 +114,23 @@ app.get('/api/orders', validateToken, async (req, res) => {
   } catch (error) {
     console.error('Error fetching orders:', error.message);
     res.status(500).send('Error fetching orders');
+  }
+});
+
+app.post('/api/save-order-status', async (req, res) => {
+  const { orderId, orderStatus } = req.body;
+
+  try {
+    const order = await Order.findOneAndUpdate({ _id: orderId }, { status: orderStatus }, { new: true });
+
+    if (!order) {
+      return res.status(404).json({ error: 'Order not found' });
+    }
+
+    res.json({ message: 'Order status updated successfully', order });
+  } catch (error) {
+    console.error('Error updating order status:', error);
+    res.status(500).json({ error: 'An error occurred while updating the order status' });
   }
 });
 
