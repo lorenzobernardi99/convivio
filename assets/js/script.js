@@ -17,7 +17,10 @@ window.onload = function () {
 
 loginBtn.addEventListener('click', () => {
   if (window.isAuthenticated) {
-    fetch('/orders', {
+    const isAdmin = sessionStorage.getItem('isAdmin') === 'true';
+    const targetUrl = isAdmin ? '/admin' : '/orders';
+
+    fetch(targetUrl, {
       headers: {
         'Authorization': sessionStorage.getItem('idToken'),
       },
@@ -63,21 +66,25 @@ function sendIdTokenToBackend(idToken) {
     },
     body: JSON.stringify({ id_token: idToken }),
   })
-    .then(response => {
-      if (response.ok) {
-        window.isAuthenticated = true;
-        sessionStorage.setItem('userName', window.identity.given_name);
-        sessionStorage.setItem('email', window.identity.email);
-        sessionStorage.setItem('idToken', idToken);
-        loginBtn.textContent = "Hi " + window.identity.given_name + "!";
-        console.log('User successfully authenticated on the backend');
-      } else {
-        console.error('Error authenticating user on the backend');
-      }
-    })
-    .catch(error => {
-      console.error('Error sending ID token to backend:', error);
-    });
+  .then(response => {
+    if (response.ok) {
+      return response.json();
+    } else {
+      console.error('Error authenticating user on the backend');
+    }
+  })
+  .then(data => {
+    window.isAuthenticated = true;
+    sessionStorage.setItem('userName', window.identity.given_name);
+    sessionStorage.setItem('email', window.identity.email);
+    sessionStorage.setItem('idToken', idToken);
+    sessionStorage.setItem('isAdmin', data.isAdmin);
+    loginBtn.textContent = "Hi " + window.identity.given_name + "!";
+    console.log('User successfully authenticated on the backend');
+  })
+  .catch(error => {
+    console.error('Error sending ID token to backend:', error);
+  });
 }
 
 planOrder.addEventListener('click', () => {

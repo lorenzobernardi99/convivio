@@ -24,6 +24,10 @@ app.get('/orders', validateToken, (req, res) => {
   res.sendFile(path.resolve(__dirname, 'orders/orders.html'));
 });
 
+app.get('/admin', validateToken, (req, res) => {
+  res.sendFile(path.resolve(__dirname, './order_admin.html'));
+});
+
 app.get('/orderform', validateToken, (req, res) => {
   res.sendFile(path.resolve(__dirname, './orderform.html'));
 });
@@ -49,7 +53,7 @@ app.post('/auth/google', async (req, res) => {
       });
     }
 
-    res.status(200).send('User authenticated');
+    res.status(200).json({ message: 'User authenticated', isAdmin: user.role });
   } catch (error) {
     console.error('Error verifying ID token:', error.message);
     res.status(401).send('Invalid ID token');
