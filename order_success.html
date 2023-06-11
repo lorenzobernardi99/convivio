@@ -1,59 +1,58 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta http-equiv="refresh" content="7;url=index.html/"/>
-  <title>Order completed</title>
-  <link rel="stylesheet"
-        href=
-                "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
-        integrity=
-                "sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
-        crossorigin="anonymous">
-
+  <meta http-equiv="refresh" content="7;url=/"/>
+  <title>Convivio</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
   <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 
-
-<style>
-
-  .container {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      position: relative;
-    }
-
-    #order_success {
-      position: absolute;
-      top: 20%;
-      animation: pulse 1s;
-    }
-
-    @keyframes pulse {
-      0% {
-        transform: scale(1);
-        opacity: 1;
-      }
-      50% {
-        transform: scale(1.2);
-        opacity: 1;
-      }
-      100% {
-        transform: scale(1);
-        opacity: 1;
-      }
-    }
-</style>
-
 <body>
-  <img src="/img/logo.png" alt="logo"></a>
-  <div class="container" style="display: flex; justify-content: center; align-items: center; height: 100vh;">
-    <h1 id="order_success"> Ordine effettuato!</h1>
+  <img src="/img/logo.png" alt="logo" class="logo"></a>
+  <div class="container">
+    <h1 id="order_success"> Order completed!</h1>
     <br>
     <h2 style="position: absolute; text-align: center; font-size: 22px;">
-      La ringraziamo per averci scelto<br>La preghiamo di attendere, verrà reindirizzato alla pagina principale tra poco
+      Thank you for choosing us<br>Please wait, you will be redirected to the main page shortly.
     </h2>
   </div>
 </body>
+
+<style>
+  .container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    position: relative;
+  }
+
+  .logo {
+    width: 20%;
+    display: block;
+    margin: 0 auto;
+    padding-top: 20px;
+  }
+
+  #order_success {
+    position: absolute;
+    top: 20%;
+    animation: pulse 1s;
+  }
+
+  @keyframes pulse {
+    0% {
+      transform: scale(1);
+      opacity: 1;
+    }
+    50% {
+      transform: scale(1.2);
+      opacity: 1;
+    }
+    100% {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+</style>
 </html>

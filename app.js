@@ -28,7 +28,7 @@ app.get('/orderform', validateToken, (req, res) => {
   res.sendFile(path.resolve(__dirname, './orderform.html'));
 });
 
-app.get('/confirmform', validateToken, (req, res) => {
+app.get('/confirmform', (req, res) => {
   res.sendFile(path.resolve(__dirname, './order_success.html'));
 });
 
