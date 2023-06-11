@@ -20,6 +20,10 @@ app.get('/', (req, res) => {
   res.sendFile(path.resolve(__dirname, './index.html'));
 });
 
+app.get('/about', (req, res) => {
+  res.sendFile(path.resolve(__dirname, 'about/about.html'));
+});
+
 app.get('/orders', validateToken, (req, res) => {
   res.sendFile(path.resolve(__dirname, 'orders/orders.html'));
 });

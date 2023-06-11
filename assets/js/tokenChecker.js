@@ -8,7 +8,6 @@ async function validateToken(req, res, next) {
   if (!idToken) {
     return res.status(401).send('Unauthorized');
   }
-  console.log("ok");
   try {
     await client.verifyIdToken({
       idToken,
