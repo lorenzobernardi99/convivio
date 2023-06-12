@@ -18,6 +18,13 @@ document.addEventListener("DOMContentLoaded", async function () {
   addOrdersToList(orders);
   setupItemButtons(orders);
   isAdminSwitch();
+
+  const menuManagementBtn = document.getElementById('menuManagementBtn');
+  if (menuManagementBtn) {
+    menuManagementBtn.addEventListener('click', () => {
+      window.location.href = '/management';
+    });
+  }
 });
 
 async function fetchOrders(email, isAdmin) {
@@ -110,6 +117,7 @@ function isAdminSwitch() {
   if (isAdmin) {
     // Admin view
     aboutButton.textContent = 'MENU MANAGEMENT';
+    aboutButton.id = 'menuManagementBtn';
     ordersSectionHeader.textContent = 'All Orders';
     mainContent.innerHTML = `
       <button type="button" class="close-btn" aria-label="Close">

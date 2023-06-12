@@ -73,7 +73,7 @@
                 JSON.stringify(details, null, 2)
               );
               const transaction = details.purchase_units[0].payments.captures[0];
-              window.location.href = "order_success.html";
+              window.location.href = "/confirmform";
             },
           })
           .render("#paypal-button-container");

@@ -3,11 +3,13 @@ const path = require('path')
 const db = require("./assets/js/db");
 const User = require('./assets/js/userModel');
 const Order = require('./assets/js/orderModel');
+const Dish = require('./assets/js/dishModel');
 const validateToken = require('./assets/js/tokenChecker');
 const port = 5500;
 const { OAuth2Client } = require('google-auth-library');
 const googleClientId = '12439243694-e7sdb14hefrbgge7vc74g6cv4r59a3hd.apps.googleusercontent.com';
 const client = new OAuth2Client(googleClientId);
+require('dotenv').config();
 
 db.connect();
 
@@ -26,6 +28,10 @@ app.get('/about', (req, res) => {
 
 app.get('/orders', validateToken, (req, res) => {
   res.sendFile(path.resolve(__dirname, 'orders/orders.html'));
+});
+
+app.get('/management', (req, res) => {
+  res.sendFile(path.resolve(__dirname, './menu_admin.html'));
 });
 
 app.get('/orderform', validateToken, (req, res) => {
@@ -91,10 +97,8 @@ try {
   const appetizers = await Dish.find({ type: 'appetizer' }).lean().exec();
   const mainDishes = await Dish.find({ type: 'mainCourse' }).lean().exec();
 
-  // Send the JSON response with the dishes
   res.json({ appetizers, mainDishes });
 } catch (error) {
-  // Handle any errors that occur during the process
   console.error(error);
   res.status(500).json({ error: 'An error occurred while fetching dishes' });
 }
@@ -138,7 +142,101 @@ app.post('/api/save-order-status', async (req, res) => {
   }
 });
 
+const getAccessToken = async () => {
+  const clientId ="AReTncnN3aPDxsTEaxDl-NDTVAH8-2jbmx5ohXHBY61S25skKGHwOptQAvOlgnQo7dmULtgRmT8sN84o";
+  const appSecret = process.env.PP_SECRET;
+  const url = "https://api-m.sandbox.paypal.com/v1/oauth2/token";
+  
+  try {
+    const { default: fetch } = await import('node-fetch');
+    const response = await fetch(url, {
+      body: "grant_type=client_credentials",
+      method: "POST",
+      headers: {
+        Authorization: "Basic " + Buffer.from(clientId + ":" + appSecret).toString("base64"),
+      },
+    });
+    const data = await response.json();
+    return data.access_token;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};
 
+const createOrder = async () => {
+  const url = "https://api-m.sandbox.paypal.com/v2/checkout/orders";
+  const payload = {
+    intent: "CAPTURE",
+    purchase_units: [
+      {
+        amount: {
+          currency_code: "EUR",
+          value: "40",
+        },
+      },
+    ],
+  };
+  const headers = {
+    Authorization: `Bearer ${await getAccessToken()}`,
+    "Content-Type": "application/json",
+  };
+  
+  try {
+    const { default: fetch } = await import('node-fetch');
+    const response = await fetch(url, {
+      headers,
+      method: "POST",
+      body: JSON.stringify(payload),
+    });
+    const data = await response.json();
+    if (data.error) {
+      throw new Error(error);
+    }
+    return data;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};
+
+const capturePayment = async (orderID) => {
+  const url = `https://api-m.sandbox.paypal.com/v2/checkout/orders/${orderID}/capture`;
+  const headers = {
+    Authorization: `Bearer ${await getAccessToken()}`,
+    "Content-Type": "application/json",
+  };
+
+  try {
+    const { default: fetch } = await import('node-fetch');
+    const response = await fetch(url, {
+      headers,
+      method: "POST",
+    });
+    const data = await response.json();
+    if (data.error) {
+      throw new Error(error);
+    }
+    return data;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};
+
+app.get("/paypal", (req, res) => {
+  res.sendFile(path.resolve(__dirname, './paypal.html'));
+});
+
+app.post("/orders", async (req, res) => {
+  const response = await createOrder();
+  res.json(response);
+});
+
+app.post("/orders/:orderID/capture", async (req, res) => {
+  const response = await capturePayment(req.params.orderID);
+  res.json(response);
+});
 
 app.listen(port, () => {
   console.log('Server running on http://localhost:' + port);
